@@ -1,11 +1,12 @@
 import React, {FC, useEffect} from "react";
 import useActions from "../../state/hooks/use-actions";
 //import useTypedSelector from "../../state/hooks/use-typed-selector";
-import EmailsFilter from "../../components/emails-filter/EmailsFilter";
+import Select from "../../components/emails-filter/Select";
 import SearchBar from "../../components/search-bar/SearchBar";
 import Badge from "../../components/badge/Badge";
 
 import "./styles.sass"
+import EmailCard from "../../components/email-card/EmailCard";
 
 const EmailsList: FC = () => {
     const {getEmails} = useActions()
@@ -22,14 +23,16 @@ const EmailsList: FC = () => {
                 <div className="left-panel light-shadow">
                     <div className="panel-header flex padding">
                         <div className="flex-item-1">
-                            <span> Inbox{" "}</span>
-                            <div style={{display: "inline-block"}}>
-                                <Badge value={3}/>
-                            </div>
+                            <span> Inbox{" "} </span>
+                            <Badge value={3}/>
                         </div>
                         <div className="flex-item-1 text-right">
                             <div className="flex-centered" style={{justifyContent: "flex-end"}}>
-                                <EmailsFilter filter={""} emails={[]}/>
+                                <Select options={['Inbox', 'Spam', 'Deleted']}
+                                        onChange={option => {
+                                            //TODO
+                                            console.log(option)
+                                        }}/>
                             </div>
                         </div>
                     </div>
@@ -39,7 +42,7 @@ const EmailsList: FC = () => {
                     </div>
                     <hr/>
                     <div>
-                        dfa
+                        <EmailCard/>
                     </div>
                 </div>
 

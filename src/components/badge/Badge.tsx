@@ -7,8 +7,10 @@ interface BadgeProps {
 }
 
 const Badge: FC<BadgeProps> = ({value}) => {
-    return <div className="badge-container shadow-badge text-center">
-        {value}
+    return <div style={{display:"inline-block"}}>
+        <div className="badge-container shadow-badge text-center">
+            {value}
+        </div>
     </div>
 }
 
