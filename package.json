@@ -11,6 +11,7 @@
   "author": "martinez lara jose eduardo <martinezlara_joseeduardo@hotmail.com>",
   "license": "ISC",
   "dependencies": {
+    "clsx": "^1.1.1",
     "immer": "^9.0.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
