@@ -1,7 +1,15 @@
 @use "./../../styles/main"
 
+$shadow-badge-values: 0 2px 3px 0 rgba(255, 0, 0, 0.50)
+.shadow-badge
+  box-shadow: $shadow-badge-values
+  -webkit-box-shadow: $shadow-badge-values
+  -moz-box-shadow: $shadow-badge-values
+
 .badge-container
-  display: inline-block
+  display: flex
+  justify-content: center
+  align-items: center
   border-radius: 40%
   width: 20px
   height: 15px
