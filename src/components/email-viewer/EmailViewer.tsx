@@ -3,12 +3,25 @@ import {IEmail} from "../../state/interfaces/emails";
 
 import "./styles.sass"
 import Button from "../button/Button";
+import useActions from "../../state/hooks/use-actions";
 
 interface EmailViewerProps {
     email: IEmail
 }
 
 const EmailViewer: FC<EmailViewerProps> = ({email}) => {
+
+    const {updateEmail} = useActions()
+
+    const handleMarkAsUnread = (email: IEmail) => {
+        const emailUpdated: IEmail = {
+            ...email,
+            isRead: false
+        }
+
+        updateEmail(email.id, emailUpdated)
+    }
+
     return <div className="email-viewer-container padding">
 
         <div className="flex flex-column">
@@ -19,7 +32,7 @@ const EmailViewer: FC<EmailViewerProps> = ({email}) => {
                         }}>
                             Delete
                         </Button>
-                        <span style={{width:'15px'}}/>
+                        <span style={{width: '15px'}}/>
                         <Button onSubmit={() => {
                         }}>
                             Spam
@@ -28,8 +41,7 @@ const EmailViewer: FC<EmailViewerProps> = ({email}) => {
                 </div>
                 <div className="flex-item-1">
                     <div className="flex" style={{justifyContent: "flex-end"}}>
-                        <Button type="primary" onSubmit={() => {
-                        }}>
+                        <Button type="primary" onSubmit={() => handleMarkAsUnread(email)}>
                             Mark as unread
                         </Button>
                     </div>
@@ -55,7 +67,8 @@ const EmailViewer: FC<EmailViewerProps> = ({email}) => {
                 </div>
 
                 <div className="email-footer text-right">
-                    <Button type="primary" onSubmit={() => {}}>
+                    <Button type="primary" onSubmit={() => {
+                    }}>
                         Replay
                     </Button>
                 </div>
