@@ -45,9 +45,7 @@ const EmailClient: FC = () => {
                         name: faker.image.image()
                     }],
                 })
-
-
-        }, 9000)
+        }, 1000 * 90)
     }, [])
 
     const handleEmailSelected = (email: IEmail) => {
