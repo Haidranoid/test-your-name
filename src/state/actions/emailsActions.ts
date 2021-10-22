@@ -16,6 +16,21 @@ interface GetEmailsActionError {
     payload: string;
 }
 
+// -------------------------------- Get Emails -----------------------------------
+interface CreateEmailsActionStarted {
+    type: EmailsTypes.CREATE_EMAILS_STARTED;
+}
+
+interface CreateEmailsActionSuccess {
+    type: EmailsTypes.CREATE_EMAILS_SUCCESS;
+    payload: IEmail;
+}
+
+interface CreateEmailsActionError {
+    type: EmailsTypes.CREATE_EMAILS_ERROR;
+    payload: string;
+}
+
 // -------------------------------- Update Email -----------------------------------
 interface UpdateEmailsActionStarted {
     type: EmailsTypes.UPDATE_EMAILS_STARTED;
@@ -51,6 +66,10 @@ type EmailsActions =
     GetEmailsActionStarted |
     GetEmailsActionSuccess |
     GetEmailsActionError |
+
+    CreateEmailsActionStarted |
+    CreateEmailsActionSuccess |
+    CreateEmailsActionError |
 
     UpdateEmailsActionStarted |
     UpdateEmailsActionSuccess |

@@ -26,8 +26,28 @@ export const getEmails = () => async (dispatch: Dispatch<EmailsActions>) => {
     }
 }
 
+// -------------------------------- Create Email -----------------------------------
+export const createEmail = (email: IEmail) => async (dispatch: Dispatch<EmailsActions>) => {
+    dispatch({
+        type: EmailsTypes.CREATE_EMAILS_STARTED,
+    })
+    try {
+        dispatch({
+            type: EmailsTypes.CREATE_EMAILS_SUCCESS,
+            payload: email,
+        })
+
+    } catch (e) {
+        dispatch({
+            type: EmailsTypes.CREATE_EMAILS_ERROR,
+            //@ts-ignore
+            payload: e.message
+        })
+    }
+}
+
 // -------------------------------- Update Email -----------------------------------
-export const updateEmail = (id: number, emailUpdated: IEmail) => async (dispatch: Dispatch<EmailsActions>, getState: GetState) => {
+export const updateEmail = (id: string, emailUpdated: IEmail) => async (dispatch: Dispatch<EmailsActions>, getState: GetState) => {
     dispatch({
         type: EmailsTypes.UPDATE_EMAILS_STARTED,
     })

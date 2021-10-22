@@ -5,6 +5,8 @@ import {IEmail} from "../interfaces/emails";
 
 export interface EmailsState {
     emails: IEmail[];
+    emailsSpam: IEmail[];
+    emailsDeleted: IEmail[];
 
     loading: boolean;
     error: string | null;
@@ -12,6 +14,8 @@ export interface EmailsState {
 
 const initialState: EmailsState = {
     emails: [],
+    emailsSpam: [],
+    emailsDeleted: [],
 
     loading: false,
     error: null,
@@ -37,7 +41,25 @@ const emailsReducer = produce((state: EmailsState, action: EmailsActions) => {
             state.error = null;
             break;
 
-        /* --------------------------------- Filter Emails --------------------------------- */
+        /* --------------------------------- Create Email --------------------------------- */
+        case EmailsTypes.CREATE_EMAILS_STARTED:
+            state.loading = true;
+            state.error = null;
+            break;
+
+        case EmailsTypes.CREATE_EMAILS_ERROR:
+            state.loading = false;
+            state.error = action.payload;
+            break;
+
+        case EmailsTypes.CREATE_EMAILS_SUCCESS:
+            state.emails.unshift(action.payload);
+
+            state.loading = false;
+            state.error = null;
+            break;
+
+        /* --------------------------------- Update Emails --------------------------------- */
         case EmailsTypes.UPDATE_EMAILS_STARTED:
             state.loading = true;
             state.error = null;
