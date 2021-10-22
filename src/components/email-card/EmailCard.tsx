@@ -6,11 +6,13 @@ import {IEmail} from "../../state/interfaces/emails";
 import "./styles.sass"
 
 interface EmailCardProps {
-    email: IEmail
+    email: IEmail;
+    onSelected: () => void;
 }
 
-const EmailCard: FC<EmailCardProps> = ({email}) => {
-    return <div className={clsx("email-card-container", "padding", {"background-blue": !email.isRead})}>
+const EmailCard: FC<EmailCardProps> = ({email, onSelected}) => {
+    return <div onClick={onSelected}
+                className={clsx("email-card-container", "padding", {"background-blue": !email.isRead})}>
 
         <div className="flex">
             <div className="flex-item-1 email-subject">
@@ -26,7 +28,7 @@ const EmailCard: FC<EmailCardProps> = ({email}) => {
                 {email.body.split(" ", 4).map(word => `${word} `)}
             </div>
             <div className="flex-item-1 text-right">
-                <img src={attachment} alt="not found" width="12px" height="17px"/>
+                {email.attachments.length !== 0 && <img src={attachment} alt="not found" width="15px" height="20px"/>}
             </div>
         </div>
 
