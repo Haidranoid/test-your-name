@@ -12,15 +12,32 @@ import email from "../../static/images/email.svg"
 import "./styles.sass"
 
 const EmailsList: FC = () => {
-    const {getEmails} = useActions()
+    const {getEmails, updateEmail} = useActions()
     const {emails} = useTypedSelector(state => state.emailsState)
 
     const [title, setTitle] = useState('Inbox')
     const [emailSelected, setEmailSelected] = useState<IEmail | null>(null)
+    const [searchInput, setSearchInput] = useState('')
 
     useEffect(() => {
         getEmails()
     }, [])
+
+    useEffect(() => {
+        setInterval(() => {
+            //TODO
+        },3000)
+    },[])
+
+    const handleEmailSelected = (email: IEmail) => {
+        const emailUpdated: IEmail = {
+            ...email,
+            isRead: true
+        }
+
+        updateEmail(email.id, emailUpdated)
+        setEmailSelected(email)
+    }
 
     return <div className="flex-centered">
         <div className="container inbox-container shadow bordered">
@@ -33,7 +50,8 @@ const EmailsList: FC = () => {
                             {title === "Inbox" && <Badge value={emails.filter(e => !e.isRead).length}/>}
                         </div>
                         <div className="flex-item-1 text-right">
-                            <div className="flex-centered" style={{justifyContent: "flex-end"}}>
+                            <div className="flex-centered"
+                                 style={{justifyContent: "flex-end"}}>
                                 <Select options={['Inbox', 'Spam', 'Deleted']}
                                         onChange={option => {
                                             //TODO
@@ -45,11 +63,15 @@ const EmailsList: FC = () => {
                     </div>
                     <hr/>
                     <div className="flex padding">
-                        <SearchBar/>
+                        <SearchBar onSubmit={input => setSearchInput(input)}/>
                     </div>
                     <hr/>
                     <div>
-                        {emails.map(email => <EmailCard email={email} onSelected={() => setEmailSelected(email)}/>)}
+                        {emails.filter(email => (email.subject.toUpperCase().includes(searchInput.toUpperCase())))
+                            .map(email => <EmailCard
+                                key={email.id}
+                                email={email}
+                                onSelected={() => handleEmailSelected(email)}/>)}
                     </div>
                 </div>
 
@@ -57,7 +79,10 @@ const EmailsList: FC = () => {
                     {emailSelected
                         ? <EmailViewer email={emailSelected}/>
                         : <div className="flex-centered">
-                            <img src={email} alt="not found" width="40px" height="40px"/>
+                            <img src={email}
+                                 alt="not found"
+                                 width="40px"
+                                 height="40px"/>
                         </div>}
                 </div>
             </div>
