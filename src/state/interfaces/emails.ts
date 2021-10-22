@@ -4,6 +4,7 @@ export interface IAttachment {
 }
 
 export interface IEmail {
+    id: number
     from: string;
     to: string;
     subject: string;

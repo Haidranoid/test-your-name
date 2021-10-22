@@ -36,6 +36,24 @@ const emailsReducer = produce((state: EmailsState, action: EmailsActions) => {
             state.loading = false;
             state.error = null;
             break;
+
+        /* --------------------------------- Filter Emails --------------------------------- */
+        case EmailsTypes.UPDATE_EMAILS_STARTED:
+            state.loading = true;
+            state.error = null;
+            break;
+
+        case EmailsTypes.UPDATE_EMAILS_ERROR:
+            state.loading = false;
+            state.error = action.payload;
+            break;
+
+        case EmailsTypes.UPDATE_EMAILS_SUCCESS:
+            state.emails = action.payload;
+
+            state.loading = false;
+            state.error = null;
+            break;
     }
 }, initialState)
 
