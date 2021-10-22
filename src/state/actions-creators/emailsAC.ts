@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 
-import mails from "../../static/files/mail-data.json"
+import mails from "../../static/api/mail-data.json"
 import EmailsTypes from "../actions-types/emailsTypes";
 import EmailsActions from "../actions/emailsActions";
 import {IEmail} from "../interfaces/emails";
