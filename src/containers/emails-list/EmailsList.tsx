@@ -1,10 +1,13 @@
 import React, {FC, useEffect, useState} from "react";
 import useActions from "../../state/hooks/use-actions";
 import useTypedSelector from "../../state/hooks/use-typed-selector";
-import Select from "../../components/emails-filter/Select";
+import Select from "../../components/select/Select";
 import SearchBar from "../../components/search-bar/SearchBar";
 import Badge from "../../components/badge/Badge";
 import EmailCard from "../../components/email-card/EmailCard";
+import EmailViewer from "../../components/email-viewer/EmailViewer";
+import {IEmail} from "../../state/interfaces/emails";
+import email from "../../static/images/email.svg"
 
 import "./styles.sass"
 
@@ -13,6 +16,7 @@ const EmailsList: FC = () => {
     const {emails} = useTypedSelector(state => state.emailsState)
 
     const [title, setTitle] = useState('Inbox')
+    const [emailSelected, setEmailSelected] = useState<IEmail | null>(null)
 
     useEffect(() => {
         getEmails()
@@ -45,14 +49,16 @@ const EmailsList: FC = () => {
                     </div>
                     <hr/>
                     <div>
-                        {emails.map(email => <EmailCard email={email}/>)}
+                        {emails.map(email => <EmailCard email={email} onSelected={() => setEmailSelected(email)}/>)}
                     </div>
                 </div>
 
                 <div className="right-panel">
-                    <div className="panel-header flex padding">
-
-                    </div>
+                    {emailSelected
+                        ? <EmailViewer email={emailSelected}/>
+                        : <div className="flex-centered">
+                            <img src={email} alt="not found" width="40px" height="40px"/>
+                        </div>}
                 </div>
             </div>
         </div>
