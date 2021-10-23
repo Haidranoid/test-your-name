@@ -11,6 +11,7 @@ export interface IEmail {
     body: string;
     date: string;
     isRead: boolean;
+    folder: 'Inbox' | 'Spam' | 'Deleted'
     avatar: string;
     tag: string;
     attachments: IAttachment[];

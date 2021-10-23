@@ -1,26 +1,17 @@
 import React, {FC} from "react"
 import {IEmail} from "../../state/interfaces/emails";
+import Button from "../button/Button";
 
 import "./styles.sass"
-import Button from "../button/Button";
-import useActions from "../../state/hooks/use-actions";
 
 interface EmailViewerProps {
-    email: IEmail
+    email: IEmail;
+    onMarkAsUnread: (email: IEmail) => void;
+    onSpam: (email: IEmail) => void;
+    onDelete: (email: IEmail) => void;
 }
 
-const EmailViewer: FC<EmailViewerProps> = ({email}) => {
-
-    const {updateEmail} = useActions()
-
-    const handleMarkAsUnread = (email: IEmail) => {
-        const emailUpdated: IEmail = {
-            ...email,
-            isRead: false
-        }
-
-        updateEmail(email.id, emailUpdated)
-    }
+const EmailViewer: FC<EmailViewerProps> = ({email, onMarkAsUnread, onSpam, onDelete}) => {
 
     return <div className="email-viewer-container padding">
 
@@ -28,20 +19,18 @@ const EmailViewer: FC<EmailViewerProps> = ({email}) => {
             <div className="flex">
                 <div className="flex-item-1">
                     <div className="flex">
-                        <Button type="danger" onSubmit={() => {
-                        }}>
+                        <Button type="danger" onSubmit={() => onDelete(email)}>
                             Delete
                         </Button>
                         <span style={{width: '15px'}}/>
-                        <Button onSubmit={() => {
-                        }}>
+                        <Button onSubmit={() => onSpam(email)}>
                             Spam
                         </Button>
                     </div>
                 </div>
                 <div className="flex-item-1">
                     <div className="flex" style={{justifyContent: "flex-end"}}>
-                        <Button type="primary" onSubmit={() => handleMarkAsUnread(email)}>
+                        <Button type="primary" onSubmit={() => onMarkAsUnread(email)}>
                             Mark as unread
                         </Button>
                     </div>

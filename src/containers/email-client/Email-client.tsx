@@ -16,7 +16,7 @@ const EmailClient: FC = () => {
     const {getEmails, createEmail, updateEmail} = useActions()
     const {emails} = useTypedSelector(state => state.emailsState)
 
-    const [title, setTitle] = useState('Inbox')
+    const [folder, setFolder] = useState('Inbox')
     const [emailSelected, setEmailSelected] = useState<IEmail | null>(null)
     const [searchInput, setSearchInput] = useState('')
 
@@ -38,6 +38,7 @@ const EmailClient: FC = () => {
                         max: 12
                     })}/2021`,
                     isRead: false,
+                    folder: "Inbox",
                     avatar: faker.internet.avatar(),
                     tag: faker.music.genre(),
                     attachments: [{
@@ -58,6 +59,37 @@ const EmailClient: FC = () => {
         setEmailSelected(email)
     }
 
+    const handleOnMarkAsUnread = (email: IEmail) => {
+        const emailUpdated: IEmail = {
+            ...email,
+            isRead: false
+        }
+
+        updateEmail(email.id, emailUpdated)
+    }
+
+    const handleOnSpam = (email: IEmail) => {
+        const emailUpdated: IEmail = {
+            ...email,
+            isRead: true,
+            folder: "Spam"
+        }
+
+        updateEmail(email.id, emailUpdated)
+        setEmailSelected(null)
+    }
+
+    const handleOnDelete = (email: IEmail) => {
+        const emailUpdated: IEmail = {
+            ...email,
+            isRead: true,
+            folder: "Deleted"
+        }
+
+        updateEmail(email.id, emailUpdated)
+        setEmailSelected(null)
+    }
+
     return <div className="flex-centered">
         <div className="container inbox-container shadow bordered">
             <div className="flex-centered">
@@ -65,18 +97,14 @@ const EmailClient: FC = () => {
                 <div className="left-panel light-shadow">
                     <div className="flex padding">
                         <div className="flex-item-1">
-                            <span> {title}{" "} </span>
-                            {title === "Inbox" && <Badge value={emails.filter(e => !e.isRead).length}/>}
+                            <span> {folder}{" "} </span>
+                            {folder !== "Deleted" && <Badge value={emails.filter(e => !e.isRead && e.folder === folder).length}/>}
                         </div>
                         <div className="flex-item-1 text-right">
                             <div className="flex-centered"
                                  style={{justifyContent: "flex-end"}}>
                                 <Select options={['Inbox', 'Spam', 'Deleted']}
-                                        onChange={option => {
-                                            //TODO
-                                            setTitle(option)
-                                            console.log(option)
-                                        }}/>
+                                        onChange={setFolder}/>
                             </div>
                         </div>
                     </div>
@@ -85,13 +113,20 @@ const EmailClient: FC = () => {
                         <SearchBar onSubmit={input => setSearchInput(input)}/>
                     </div>
                     <div style={{height: '65vh', overflowY: "auto"}}>
-                        <EmailList emails={emails} searchInput={searchInput} onEmailSelected={handleEmailSelected}/>
+                        <EmailList emails={emails.filter(email => email.folder === folder)}
+                                   searchInput={searchInput}
+                                   onEmailSelected={handleEmailSelected}/>
                     </div>
                 </div>
 
                 <div className="right-panel">
                     {emailSelected
-                        ? <EmailViewer email={emailSelected}/>
+                        ? <EmailViewer
+                            email={emailSelected}
+                            onMarkAsUnread={handleOnMarkAsUnread}
+                            onSpam={handleOnSpam}
+                            onDelete={handleOnDelete}
+                        />
                         : <div className="flex-centered">
                             <img src={email}
                                  alt="not found"
