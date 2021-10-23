@@ -1,12 +1,13 @@
 {
+  "homepage": "https://Haidranoid.github.io/test-your-name",
   "name": "test-your-name",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "front end code challenge",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open --hot --node-env development",
     "build": "webpack --progress",
-    "deploy": "netlify deploy --prod"
+    "deploy": "gh-pages -d dist"
   },
   "author": "martinez lara jose eduardo <martinezlara_joseeduardo@hotmail.com>",
   "license": "ISC",
@@ -38,6 +39,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.4.0",
     "file-loader": "^6.2.0",
+    "gh-pages": "^3.2.3",
     "html-webpack-plugin": "^5.4.0",
     "sass": "^1.43.2",
     "sass-loader": "^12.2.0",
